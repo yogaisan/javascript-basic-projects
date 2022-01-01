@@ -1,9 +1,10 @@
-const hex = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, "A", "B", "C", "D", "E", "F"];\
+const hex = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, "A", "B", "C", "D", "E", "F"];
 const btn = document.getElementById('btn');
 const color = document.querySelector(".color");
 
+/*
 function randomHexCode() {
-  // get random number between from 0 to 3
+  // get random number between from 0 to 15
   const indexOne = Math.floor(Math.random() * hex.length);
   const indexTwo = Math.floor(Math.random() * hex.length);
   const indexThree = Math.floor(Math.random() * hex.length);
@@ -22,3 +23,28 @@ function changeColor() {
 };
 
 btn.addEventListener('click', changeColor);
+*/
+
+
+function getIndex() {
+  // get random number between from 0 to 15
+  return Math.floor(Math.random() * hex.length);
+};
+
+function randomHexCode() {
+  let hexCode = '#'
+
+  for (let i = 0;i < 6;i++) {
+    hexCode += hex[getIndex()];
+  }
+
+  return hexCode;
+};
+
+function changeColor() {
+  document.body.style.backgroundColor = randomHexCode();
+  color.textContent = randomHexCode();
+};
+
+btn.addEventListener('click', changeColor);
+
