@@ -71,4 +71,79 @@ const menu = [
     img: "./images/item-9.jpeg",
     desc: `skateboard fam synth authentic semiotics. Live-edge lyft af, edison bulb yuccie crucifix microdosing.`,
   },
+  {
+    id: 10,
+    title: "steak",
+    category: "dinner",
+    price: 39.99,
+    img: "./images/item-10.jpeg",
+    desc: `Pan-Seared Steak has a garlic rosemary-infused butter that makes it taste steakhouse quality.`,
+  },
 ];
+
+const sectionCenter = document.querySelector('.section-center');
+const btnContainer = document.querySelector('.btn-container');
+
+// general function for any array
+function displayMenuItems(menuItems) {
+  const displayMenu = menuItems.map(item => {
+    // console.log(item);
+    return `<article class="menu-item">
+          <img src="${item.img}" class="photo" alt="menu item">
+          <div class="item-info">
+            <header>
+              <h4>${item.title}</h4>
+              <h4 class="price">$${item.price}</h4>
+            </header>
+            <p class="item-text">${item.desc}.</p>
+          </div>
+          </article>`;
+  }).join('');
+  // console.log(displayMenu);
+  sectionCenter.innerHTML = displayMenu;
+}
+
+function displayMenuBtns() {
+  // get only unique categories
+  const categories = menu.reduce((values, item) => {
+    if (!values.includes(item.category)) {
+      values.push(item.category);
+    }
+    return values;
+  }, ['all']);
+  // console.log(categories);
+
+  // iterate over categories and return buttons
+  const categoryBtns = categories.map((category) => {
+    return `<button class="filter-btn" type="button" data-recipe=${category}>
+    ${category}
+    </button>`
+  }).join('');
+  btnContainer.innerHTML = categoryBtns;
+
+  // make sure to select buttons when they are available
+  // filter items
+  const filterBtns = document.querySelectorAll('.filter-btn');
+  filterBtns.forEach((btn) => {
+    btn.addEventListener('click', (event) => {
+      // console.log(event.currentTarget.dataset.category);
+      const categoryName = event.currentTarget.dataset.recipe;
+      const menuCategory = menu.filter((menuItem) => {
+        if (categoryName === menuItem.category) {
+          return menuItem;
+        }
+      });
+      // console.log(menuCategory);
+      if (categoryName === 'all') {
+        displayMenuItems(menu);
+      } else {
+        displayMenuItems(menuCategory);
+      }
+    });
+  });
+}
+
+window.addEventListener('DOMContentLoaded', function () {
+  displayMenuItems(menu); // pass array name into function
+  displayMenuBtns();
+});
